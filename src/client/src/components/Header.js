@@ -10,18 +10,20 @@ class Header extends Component {
 	};
 
 	renderContent() {
-		const { user: { profile } } = this.props;
+		const {
+			user: { profile },
+		} = this.props;
 		switch (profile) {
 		case false:
 			return [
 				<li key="1">
 					<Link to="/login" href="/login" className="menu">
-						<span>Signin</span>
+						<span>Login</span>
 					</Link>
 				</li>,
 				<li key="2">
-					<Link to="/register" href="/register" className="menu">
-						<span>Register</span>
+					<Link to="/signup" href="/signup" className="menu">
+						<span>Sign up</span>
 					</Link>
 				</li>,
 			];

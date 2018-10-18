@@ -3,12 +3,12 @@ import { reduxForm, Field, SubmissionError } from 'redux-form/immutable';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import ToJS from './ToJS';
-import RegistrationField from './RegistrationField';
+import SignUpField from './SignUpField';
 import fields from './fields';
 import validateEmail from '../validateEmail';
 
-class Register extends Component {
-	onRegister = async (values) => {
+class SignUp extends Component {
+	onSignUp = async (values) => {
 		const { history } = this.props;
 		const msg = 'Fill this field';
 		const invalidEmail = validateEmail(values.email || '');
@@ -18,7 +18,7 @@ class Register extends Component {
 		if (!values.email) {
 			throw new SubmissionError({ email: msg });
 		} if (invalidEmail) {
-			throw new SubmissionError({ email: 'Not valid email.' })
+			throw new SubmissionError({ email: 'Not valid email.' });
 		}
 		const res = await axios.post('/api/auth/signup', values);
 		if (res.data.success) {
@@ -37,7 +37,7 @@ class Register extends Component {
 			name={name}
 			placeholder={placeholder}
 			label={label}
-			component={RegistrationField}
+			component={SignUpField}
 		/>
 	));
 
@@ -48,10 +48,10 @@ class Register extends Component {
 				<div className="row justify-content-md-center">
 					<form
 						className="form-signin col-lg-6"
-						onSubmit={handleSubmit(this.onRegister)}
+						onSubmit={handleSubmit(this.onSignUp)}
 					>
 						<h2 className="form-signin-heading">
-							<span>Register</span>
+							<span>SignUp</span>
 						</h2>
 						<p>Please fill in this form to create an account.</p>
 						<hr />
@@ -60,7 +60,7 @@ class Register extends Component {
 							className="btn btn-lg btn-primary btn-block"
 							type="submit"
 						>
-							<span>Register</span>
+							<span>Sign up</span>
 						</button>
 					</form>
 				</div>
@@ -84,11 +84,9 @@ const validate = (values) => {
 
 const mapStateToProps = state => ({ form: state.get('form') });
 
-const RegisterHOC = connect(mapStateToProps)(ToJS(Register));
+const SignUpHOC = connect(mapStateToProps)(ToJS(SignUp));
 
 export default reduxForm({
 	validate,
-	form: 'registerForm',
-})(RegisterHOC);
-
-
+	form: 'signupForm',
+})(SignUpHOC);

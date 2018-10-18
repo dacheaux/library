@@ -7,7 +7,7 @@ import * as actions from '../actions';
 import Header from './Header';
 import Landing from './Landing';
 import Login from './Login';
-import Register from './Register';
+import SignUp from './SignUp';
 import Library from './Library';
 import ToJS from './ToJS';
 
@@ -27,7 +27,7 @@ class App extends Component {
 					<Header />
 					<Route exact path="/" component={Landing} />
 					<Route path="/login" render={() => logIn} />
-					<Route path="/register" render={props => <Register {...props} />} />
+					<Route path="/signup" render={props => <SignUp {...props} />} />
 					<Route path="/library" render={() => library} />
 				</div>
 			</Router>

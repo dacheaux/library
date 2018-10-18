@@ -24,24 +24,29 @@ class Login extends Component {
 		}
 	};
 
-	renderFields = () => fields.slice(-2).map(({
-		type, name, placeholder, label,
-	}) => (
-		<Field
-			key={name}
-			type={type}
-			name={name}
-			placeholder={placeholder}
-			label={label}
-			component={LoginField}
-		/>
-	));
+	renderFields = () => fields
+		.slice(-2)
+		.map(({
+			type, name, placeholder, label,
+		}) => (
+			<Field
+				key={name}
+				type={type}
+				name={name}
+				placeholder={placeholder}
+				label={label}
+				component={LoginField}
+			/>
+		));
 
 	render() {
 		const { handleSubmit } = this.props;
 		return (
 			<div className="row justify-content-md-center">
-				<form className="form-signin col-lg-6" onSubmit={handleSubmit(this.onLogin)}>
+				<form
+					className="form-signin col-lg-6"
+					onSubmit={handleSubmit(this.onLogin)}
+				>
 					<h2 className="form-signin-heading">
 						<span>Enter your credentials</span>
 					</h2>
@@ -53,7 +58,7 @@ class Login extends Component {
 					>
 						<span>Login</span>
 					</button>
-					<p>
+					<p className="py-2">
 						<span>Not a member?</span>
 						{' '}
 						<Link to="/signup" href="/signup">
@@ -61,7 +66,7 @@ class Login extends Component {
 								className="glyphicon glyphicon-plus-sign"
 								aria-hidden="true"
 							/>
-							<span>Register here</span>
+							<span>Sign up here</span>
 						</Link>
 					</p>
 				</form>
@@ -82,5 +87,5 @@ const LoginHOC = connect(mapStateToProps)(ToJS(Login));
 
 export default reduxForm({
 	validate,
-	form: 'registerForm',
+	form: 'signupForm',
 })(LoginHOC);
