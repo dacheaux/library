@@ -50,37 +50,27 @@ module.exports = (userModel) => {
 				passwordField: 'password',
 				passReqToCallback: true,
 			},
-			(req, email, password, done) => {
+			async (req, email, password, done) => {
 				const generateHash = pass => bCrypt.hashSync(pass, bCrypt.genSaltSync());
-				User.findOne({
-					where: {
-						email,
-					},
-				}).then((user) => {
-					if (user) {
-						return done(null, false, {
-							message: 'That email is already taken',
-						});
-					}
-					const hashedPassword = generateHash(password);
-					const data = {
-						email,
-						password: hashedPassword,
-						firstname: req.body.firstname || '',
-						lastname: req.body.lastname || '',
-					};
-
-					User.create(data).then((newUser) => {
-						if (!newUser) {
-							return done(null, false);
-						}
-						if (newUser) {
-							return done(null, newUser);
-						}
-						return done(null, null, null);
+				const user = await User.findOne({ where: { email } });
+				if (user) {
+					return done(null, false, {
+						message: 'That email is already taken',
 					});
-					return done(null, null, null);
-				});
+				}
+				const hashedPassword = generateHash(password);
+				const data = {
+					email,
+					password: hashedPassword,
+					firstname: req.body.firstname || '',
+					lastname: req.body.lastname || '',
+				};
+
+				const newUser = await User.create(data);
+				if (!newUser) {
+					return done(null, false);
+				}
+				return done(null, newUser);
 			}
 		)
 	);

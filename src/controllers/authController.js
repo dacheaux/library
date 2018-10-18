@@ -4,8 +4,8 @@ const secretOrKey = require('../config/settings').secret;
 
 exports.signup = (req, res) => {
 	passport.authenticate('local-signup', { session: false }, (err, user, info) => {
-		if (info) return res.json(info);
-		return res.json({ user });
+		if (info) return res.send({ success: false, info });
+		return res.send({ success: true });
 	})(req, res);
 };
 

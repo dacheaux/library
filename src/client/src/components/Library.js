@@ -6,6 +6,7 @@ import * as actions from '../actions';
 
 class Library extends Component {
 	state = { title: '', author: '', genre: '' };
+
 	componentDidMount() {
 		const { fetchBooks } = this.props;
 		fetchBooks();

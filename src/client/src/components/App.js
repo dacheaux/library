@@ -27,7 +27,7 @@ class App extends Component {
 					<Header />
 					<Route exact path="/" component={Landing} />
 					<Route path="/signin" render={() => signIn} />
-					<Route path="/register" component={Register} />
+					<Route path="/signup" render={props => <Register {...props} />} />
 					<Route path="/library" render={() => library} />
 				</div>
 			</Router>

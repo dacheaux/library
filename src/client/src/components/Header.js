@@ -20,7 +20,7 @@ class Header extends Component {
 					</Link>
 				</li>,
 				<li key="2">
-					<Link to="/register" href="/register" className="menu">
+					<Link to="/signup" href="/signup" className="menu">
 						<span>Register</span>
 					</Link>
 				</li>,
