@@ -8,12 +8,6 @@ import fields from './fields';
 import validateEmail from '../validateEmail';
 
 class Register extends Component {
-	onChange = (e) => {
-		const state = { ...this.state };
-		state[e.target.name] = e.target.value;
-		this.setState(state);
-	};
-
 	onRegister = async (values) => {
 		const { history } = this.props;
 		const msg = 'Fill this field';
@@ -81,7 +75,7 @@ const validate = (values) => {
 	// errors.email = validateEmail(values.email || '');
 	// fields.forEach(({ name }) => {
 	// 	if (!values[name]) {
-	// 		errors[name] = 'You must provide a value';
+	// 		errors[name] = '';
 	// 	}
 	// });
 

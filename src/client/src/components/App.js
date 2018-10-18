@@ -6,7 +6,7 @@ import * as actions from '../actions';
 
 import Header from './Header';
 import Landing from './Landing';
-import SignIn from './SignIn';
+import Login from './Login';
 import Register from './Register';
 import Library from './Library';
 import ToJS from './ToJS';
@@ -19,15 +19,15 @@ class App extends Component {
 
 	render() {
 		const { user: { profile } } = this.props;
-		const signIn = profile ? <Redirect to="/" /> : <SignIn />;
-		const library = profile ? <Library /> : <Redirect to="/signin" />;
+		const logIn = profile ? <Redirect to="/" /> : <Login />;
+		const library = profile ? <Library /> : <Redirect to="/login" />;
 		return (
 			<Router>
 				<div className="container">
 					<Header />
 					<Route exact path="/" component={Landing} />
-					<Route path="/signin" render={() => signIn} />
-					<Route path="/signup" render={props => <Register {...props} />} />
+					<Route path="/login" render={() => logIn} />
+					<Route path="/register" render={props => <Register {...props} />} />
 					<Route path="/library" render={() => library} />
 				</div>
 			</Router>

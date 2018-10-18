@@ -15,12 +15,12 @@ class Header extends Component {
 		case false:
 			return [
 				<li key="1">
-					<Link to="/signin" href="/signin" className="menu">
+					<Link to="/login" href="/login" className="menu">
 						<span>Signin</span>
 					</Link>
 				</li>,
 				<li key="2">
-					<Link to="/signup" href="/signup" className="menu">
+					<Link to="/register" href="/register" className="menu">
 						<span>Register</span>
 					</Link>
 				</li>,
