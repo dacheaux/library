@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { reduxForm, Field } from 'redux-form/immutable';
+import { reduxForm, Field, SubmissionError } from 'redux-form/immutable';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import ToJS from './ToJS';
 import RegistrationField from './RegistrationField';
 import fields from './fields';
+import validateEmail from '../validateEmail';
 
 class Register extends Component {
 	onChange = (e) => {
@@ -13,11 +14,18 @@ class Register extends Component {
 		this.setState(state);
 	};
 
-	onRegister = async (e) => {
-		e.preventDefault();
-		const { form: { registerForm }, history } = this.props;
-		const { values } = registerForm;
-		console.log(values);
+	onRegister = async (values) => {
+		const { history } = this.props;
+		const msg = 'Fill this field';
+		const invalidEmail = validateEmail(values.email || '');
+		if (!values.password) {
+			throw new SubmissionError({ password: msg });
+		}
+		if (!values.email) {
+			throw new SubmissionError({ email: msg });
+		} if (invalidEmail) {
+			throw new SubmissionError({ email: 'Not valid email.' })
+		}
 		const res = await axios.post('/api/auth/signup', values);
 		if (res.data.success) {
 			history.push('/signin');
@@ -40,20 +48,28 @@ class Register extends Component {
 	));
 
 	render() {
+		const { handleSubmit } = this.props;
 		return (
 			<div className="container">
-				<form className="form-signin" onSubmit={this.onRegister}>
-					<h2 className="form-signin-heading">
-						<span>Enter your credentials</span>
-					</h2>
-					{this.renderFields()}
-					<button
-						className="btn btn-lg btn-primary btn-block"
-						type="submit"
+				<div className="row justify-content-md-center">
+					<form
+						className="form-signin col-lg-6"
+						onSubmit={handleSubmit(this.onRegister)}
 					>
-						<span>Register</span>
-					</button>
-				</form>
+						<h2 className="form-signin-heading">
+							<span>Register</span>
+						</h2>
+						<p>Please fill in this form to create an account.</p>
+						<hr />
+						{this.renderFields()}
+						<button
+							className="btn btn-lg btn-primary btn-block"
+							type="submit"
+						>
+							<span>Register</span>
+						</button>
+					</form>
+				</div>
 			</div>
 		);
 	}
@@ -62,11 +78,12 @@ class Register extends Component {
 const validate = (values) => {
 	const errors = {};
 
-	fields.forEach(({ name }) => {
-		if (!values[name]) {
-			errors[name] = 'You must provide a value';
-		}
-	});
+	// errors.email = validateEmail(values.email || '');
+	// fields.forEach(({ name }) => {
+	// 	if (!values[name]) {
+	// 		errors[name] = 'You must provide a value';
+	// 	}
+	// });
 
 	return errors;
 };
@@ -79,3 +96,5 @@ export default reduxForm({
 	validate,
 	form: 'registerForm',
 })(RegisterHOC);
+
+
