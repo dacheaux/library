@@ -15,7 +15,6 @@ export default ({
 			</label>
 			<input
 				{...input}
-				style={{ marginBottom: '5px' }}
 				id={input.name}
 				type={type}
 				placeholder={placeholder}

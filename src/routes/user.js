@@ -4,5 +4,6 @@ const userController = require('../controllers/userController');
 router.get('/', userController.user);
 router.get('/fetch-books', userController.fetchBooks);
 router.post('/add-book', userController.addBook);
+router.delete('/delete-book/:id', userController.deleteBook);
 
 module.exports = router;

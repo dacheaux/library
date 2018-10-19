@@ -3,7 +3,6 @@ const models = require('../models');
 
 exports.user = (req, res) => {
 	passport.authenticate('jwt', async (err, user) => {
-		console.log('\n\nUser controller\n\n', user, '\n\n', req.headers);
 		const { User } = models;
 		if (user) {
 			const userInstance = await User.findById(user.id);
@@ -11,12 +10,12 @@ exports.user = (req, res) => {
 				res.send({ error: null, profile: userInstance });
 			} catch (e) {
 				res.send({
-					error: 'Couldn"t fetch user from the database',
+					error: 'Unable to fetch user from the database',
 					profile: false,
 				});
 			}
 		} else {
-			res.send({ error: 'Couldn"t authenticate user', profile: false });
+			res.send({ error: 'Unable to authenticate user', profile: false });
 		}
 	})(req, res);
 };
@@ -39,12 +38,12 @@ exports.fetchBooks = (req, res) => {
 				res.send({ error: null, list: userInstance.Books });
 			} catch (e) {
 				res.send({
-					error: 'Couldn"t fetch books from the database',
+					error: 'Unable to fetch books from the database',
 					list: [],
 				});
 			}
 		} else {
-			res.send({ error: 'Couldn"t authenticate user', list: [] });
+			res.send({ error: 'Unable to authenticate user', list: [] });
 		}
 	})(req, res);
 };
@@ -64,10 +63,28 @@ exports.addBook = (req, res) => {
 				await userInstance.addBook(book);
 				res.send({ book, error: null });
 			} catch (e) {
-				res.send({ book: null, error: 'Failed to add book' });
+				res.send({ book: null, error: 'Unable to add book' });
 			}
 		} else {
-			res.send({ book: null, error: 'Couldn"t authenticate user' });
+			res.send({ book: null, error: 'Unable to authenticate user' });
+		}
+	})(req, res);
+};
+
+exports.deleteBook = (req, res) => {
+	passport.authenticate('jwt', async (err, user) => {
+		const { id } = req.params;
+		const { Book } = models;
+		if (user) {
+			const bookInstance = await Book.findById(id);
+			try {
+				await bookInstance.destroy();
+				res.send({ success: true });
+			} catch (e) {
+				res.send({ error: 'Unable to delete book' });
+			}
+		} else {
+			res.send({ error: 'Unable to authenticate user' });
 		}
 	})(req, res);
 };

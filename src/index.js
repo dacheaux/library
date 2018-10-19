@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
+const path = require('path');
 
 const authRoute = require('./routes/auth.js');
 const userRoute = require('./routes/user.js');
@@ -25,8 +26,6 @@ app.use('/api/user', userRoute);
 app.use((req, res, next) => {
 	const err = new Error('Not Found');
 	err.status = 404;
-	console.log('\n\n', req.body);
-	console.log('\n\n', req.headers);
 	next(err);
 });
 
@@ -43,10 +42,9 @@ app.listen(port, (err) => {
 	} else console.log(err);
 });
 
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static("client/build"));
-//   const path = require("path");
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-//   });
-// }
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static('client/build'));
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+	});
+}

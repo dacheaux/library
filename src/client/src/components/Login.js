@@ -5,7 +5,7 @@ import { reduxForm, Field, SubmissionError } from 'redux-form/immutable';
 import axios from 'axios';
 import LoginField from './LoginField';
 import ToJS from './ToJS';
-import fields from './fields';
+import authFields from './authFields';
 
 class Login extends Component {
 	onLogin = async (values) => {
@@ -24,7 +24,7 @@ class Login extends Component {
 		}
 	};
 
-	renderFields = () => fields
+	renderFields = () => authFields
 		.slice(-2)
 		.map(({
 			type, name, placeholder, label,
@@ -75,9 +75,8 @@ class Login extends Component {
 	}
 }
 
-const validate = (values) => {
+const validate = () => {
 	const errors = {};
-
 	return errors;
 };
 

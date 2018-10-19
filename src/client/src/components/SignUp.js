@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import ToJS from './ToJS';
 import SignUpField from './SignUpField';
-import fields from './fields';
+import authFields from './authFields';
 import validateEmail from '../validateEmail';
 
 class SignUp extends Component {
@@ -28,7 +28,7 @@ class SignUp extends Component {
 		}
 	};
 
-	renderFields = () => fields.map(({
+	renderFields = () => authFields.map(({
 		type, name, placeholder, label,
 	}) => (
 		<Field
@@ -71,14 +71,6 @@ class SignUp extends Component {
 
 const validate = (values) => {
 	const errors = {};
-
-	// errors.email = validateEmail(values.email || '');
-	// fields.forEach(({ name }) => {
-	// 	if (!values[name]) {
-	// 		errors[name] = '';
-	// 	}
-	// });
-
 	return errors;
 };
 

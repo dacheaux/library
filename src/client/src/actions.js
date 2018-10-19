@@ -3,6 +3,7 @@ import axios from 'axios';
 export const FETCH_USER = 'FETCH_USER';
 export const FETCH_BOOKS = 'FETCH_BOOKS';
 export const ADD_BOOK = 'ADD_BOOK';
+export const DELETE_BOOK = 'DELETE_BOOK';
 
 export const fetchUser = () => async (dispatch) => {
 	axios.defaults.headers.common.Authorization = localStorage.getItem(
@@ -28,3 +29,10 @@ export const addBook = values => async (dispatch) => {
 	}
 	dispatch({ type: ADD_BOOK, payload });
 };
+
+export const deleteBook = id => async (dispatch) => {
+	const res = await axios.delete(`/api/user/delete-book/${id}`);
+	if (res.data.success) {
+		dispatch({ type: DELETE_BOOK, payload: id });		
+	}
+}
