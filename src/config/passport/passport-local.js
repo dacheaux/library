@@ -2,10 +2,10 @@ const bCrypt = require('bcryptjs');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const passportJWT = require('passport-jwt');
+const secretOrKey = require('../settings').jwtSecret;
 
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
-const secretOrKey = require('../settings').jwtSecret;
 
 module.exports = (userModel) => {
 	const User = userModel;
