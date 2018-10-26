@@ -31,9 +31,10 @@ models.sequelize
 	.catch(err => console.log(err, 'Something went wrong with the Database Update!'));
 
 if (process.env.NODE_ENV === 'production') {
-	app.use(express.static(path.join(__dirname, 'client/build')));
+	const root = path.join(__dirname, 'client/build');
+	app.use(express.static(root));
 	app.get('*', (req, res) => {
-		res.sendFile('index.html');
+		res.sendFile('index.html', { root });
 	});
 }
 
