@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { reduxForm, Field, SubmissionError } from 'redux-form/immutable';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import ToJS from './ToJS';
-import SignUpField from './SignUpField';
-import authFields from './authFields';
-import validateEmail from '../validateEmail';
+
+import { FormField } from '../components';
+import { authFields, validateEmail } from '../utilities';
 
 class SignUp extends Component {
+	static propTypes = {
+		handleSubmit: PropTypes.func.isRequired,
+	}
+
 	onSignUp = async (values) => {
 		const { history } = this.props;
 		const msg = 'Fill this field';
@@ -23,8 +27,6 @@ class SignUp extends Component {
 		const res = await axios.post('/api/auth/signup', values);
 		if (res.data.success) {
 			history.push('/signin');
-		} else {
-			console.log(res.data.info);
 		}
 	};
 
@@ -37,7 +39,7 @@ class SignUp extends Component {
 			name={name}
 			placeholder={placeholder}
 			label={label}
-			component={SignUpField}
+			component={FormField}
 		/>
 	));
 
@@ -69,14 +71,14 @@ class SignUp extends Component {
 	}
 }
 
-const validate = (values) => {
+const validate = () => {
 	const errors = {};
 	return errors;
 };
 
 const mapStateToProps = state => ({ form: state.get('form') });
 
-const SignUpHOC = connect(mapStateToProps)(ToJS(SignUp));
+const SignUpHOC = connect(mapStateToProps)(SignUp);
 
 export default reduxForm({
 	validate,

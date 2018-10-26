@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import ToJS from './ToJS';
-import bookFields from './bookFields';
-import * as actions from '../actions';
+import PropTypes from 'prop-types';
+
+import { bookFields } from '../utilities';
 
 class Library extends Component {
 	state = { title: '', author: '', genre: '' };
 
+	static propTypes = {
+		action: PropTypes.shape({}).isRequired,
+		books: PropTypes.shape({}).isRequired,
+	};
+
 	componentDidMount() {
-		const { fetchBooks } = this.props;
-		fetchBooks();
+		const { action } = this.props;
+		action.fetchBooks();
 	}
 
 	onChange = (e) => {
@@ -25,9 +28,9 @@ class Library extends Component {
 		const { title, author, genre } = this.state;
 		const {
 			user: { profile },
-			addBook,
+			action,
 		} = this.props;
-		addBook({
+		action.addBook({
 			title,
 			author,
 			genre,
@@ -37,18 +40,35 @@ class Library extends Component {
 	};
 
 	onDelete = async (id) => {
-		const { deleteBook } = this.props;
-		deleteBook(id);
+		const { action } = this.props;
+		action.deleteBook(id);
 	};
 
-	renderBookFields = () => bookFields.map(({ name, placeholder }) => (
-		<div key={name} className="form-group d-flex my-4 position-relative">
-			<label htmlFor={name} className="col-md-2 py-2 text-capitalize">
-				{name}
-			</label>
-			<input id={name} name={name} type="text" value={this.state[name]} onChange={this.onChange} placeholder={placeholder} className="col-md-8 form-control" />
-		</div>
-	));
+	renderBookFields = () => bookFields.map(({ name, placeholder }) => {
+		const { [name]: value } = this.state;
+		return (
+			<div
+				key={name}
+				className="container form-group my-4"
+			>
+				<label
+					htmlFor={name}
+					className="row w-50 py-2 text-capitalize"
+				>
+					<span className="col-md-3">{name}</span>
+					<input
+						id={name}
+						name={name}
+						type="text"
+						value={value}
+						onChange={this.onChange}
+						placeholder={placeholder}
+						className="col-md-9 form-control"
+					/>
+				</label>
+			</div>
+		);
+	});
 
 	render() {
 		const { books } = this.props;
@@ -56,12 +76,18 @@ class Library extends Component {
 		return (
 			<div className="container">
 				<div className="row mb-5">
-					<form className="col-lg-8 mr-auto" onSubmit={this.onAddBook}>
-						<h3 className="mx-5 px-5">
+					<form
+						className="col-lg-8 px-0 mr-auto"
+						onSubmit={this.onAddBook}
+					>
+						<h3>
 							<span>Add new book to library</span>
 						</h3>
 						{this.renderBookFields()}
-						<button className="col-10 btn btn-info btn-block" type="submit">
+						<button
+							className="col-6 btn btn-info btn-block"
+							type="submit"
+						>
 							<span>Add book</span>
 						</button>
 						<p>
@@ -85,7 +111,11 @@ class Library extends Component {
 									<td>{book.author}</td>
 									<td>{book.genre}</td>
 									<td>
-										<button type="button" onClick={() => this.onDelete(book.id)}>
+										<button
+											type="button"
+											onClick={() => this.onDelete(book.id)
+											}
+										>
 											<span>del</span>
 										</button>
 									</td>
@@ -99,12 +129,4 @@ class Library extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
-	user: state.get('user'),
-	books: state.get('books'),
-});
-
-export default connect(
-	mapStateToProps,
-	actions
-)(ToJS(Library));
+export default Library;

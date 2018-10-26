@@ -13,9 +13,9 @@
     "server": "nodemon ./src/index.js",
     "client": "npm run start --prefix ./src/client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "cd client && npm install && npm run build",
     "eslint": "npx eslint -- ./src/.",
-    "eslint:fix": "npx eslint --fix ./src/."
+    "eslint:fix": "npx eslint --fix ./src/.",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",

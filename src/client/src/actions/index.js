@@ -20,19 +20,12 @@ export const fetchBooks = () => async (dispatch) => {
 
 export const addBook = values => async (dispatch) => {
 	const res = await axios.post('/api/user/add-book', values);
-	const { book, error } = res.data;
-	let payload;
-	if (book) {
-		payload = { list: [book], error };
-	} else {
-		payload = { error };
-	}
-	dispatch({ type: ADD_BOOK, payload });
+	dispatch({ type: ADD_BOOK, payload: res.data });
 };
 
 export const deleteBook = id => async (dispatch) => {
 	const res = await axios.delete(`/api/user/delete-book/${id}`);
 	if (res.data.success) {
-		dispatch({ type: DELETE_BOOK, payload: id });		
+		dispatch({ type: DELETE_BOOK, payload: id });
 	}
-}
+};

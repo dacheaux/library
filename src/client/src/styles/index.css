@@ -12,3 +12,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+button {
+	background-color: transparent;
+    border: 1px solid #ccc;
+    padding: .5rem 1rem;
+}
+
+button:hover {
+	border-color: #999;
+}

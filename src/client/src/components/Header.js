@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import ToJS from './ToJS';
 
 class Header extends Component {
+	static propTypes = {
+		user: PropTypes.shape({}).isRequired,
+	}
+
 	onLogout = () => {
 		localStorage.removeItem('jwtToken');
 		window.location.reload();
@@ -64,8 +67,4 @@ class Header extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
-	user: state.get('user'),
-});
-
-export default connect(mapStateToProps)(ToJS(Header));
+export default Header;

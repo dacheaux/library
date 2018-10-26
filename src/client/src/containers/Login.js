@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form/immutable';
 import axios from 'axios';
-import LoginField from './LoginField';
-import ToJS from './ToJS';
-import authFields from './authFields';
+
+import { FormField } from '../components';
+import { authFields } from '../utilities';
 
 class Login extends Component {
+	static propTypes = {
+		handleSubmit: PropTypes.func.isRequired,
+	}
+
 	onLogin = async (values) => {
 		const { email, password } = values;
 		const msg = 'Fill this field';
@@ -35,7 +40,7 @@ class Login extends Component {
 				name={name}
 				placeholder={placeholder}
 				label={label}
-				component={LoginField}
+				component={FormField}
 			/>
 		));
 
@@ -82,7 +87,7 @@ const validate = () => {
 
 const mapStateToProps = state => ({ form: state.get('form') });
 
-const LoginHOC = connect(mapStateToProps)(ToJS(Login));
+const LoginHOC = connect(mapStateToProps)(Login);
 
 export default reduxForm({
 	validate,
