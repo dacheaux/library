@@ -22,12 +22,6 @@ const models = require('./models');
 // Routes
 app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-	const err = new Error('Not Found');
-	err.status = 404;
-	next(err);
-});
 
 // Sync Database
 models.sequelize
@@ -48,3 +42,10 @@ if (process.env.NODE_ENV === 'production') {
 		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
 	});
 }
+
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+	const err = new Error('Not Found');
+	err.status = 404;
+	next(err);
+});
