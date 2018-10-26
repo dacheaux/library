@@ -1,3 +1,4 @@
 {
-  "secret": "vjhmchimrtmhcgimrjicgjklr"
+  "jwtSecret": "vjhmchimrtmhcgimrjicgjklr",
+  "sessionSecret": "jshgvntunrwuiovtnhreunhctkjg"
 }
