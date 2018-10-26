@@ -15,7 +15,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "eslint": "npx eslint -- ./src/.",
     "eslint:fix": "npx eslint --fix ./src/.",
-    "heroku-postbuild": "npm i && cd client && npm i && npm run build"
+    "heroku-postbuild": "npm i && cd ./src/client && npm i && npm run build"
   },
   "author": "",
   "license": "ISC",
