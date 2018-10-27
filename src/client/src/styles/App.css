@@ -23,6 +23,7 @@
     position: absolute;
     z-index: 1;
     right: 105%;
+    top: 0;
 }
 
 .form-group .tooltiptext::after {

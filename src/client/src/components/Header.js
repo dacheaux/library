@@ -48,7 +48,7 @@ class Header extends Component {
 	render() {
 		const user = this.props;
 		return (
-			<div className="d-flex justify-content-between py-2">
+			<div className="row justify-content-between py-2">
 				<nav className="nav-wrapper">
 					<Link to="/" href="/" className="menu">
 						<span>Home</span>
