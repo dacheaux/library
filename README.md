@@ -17,7 +17,7 @@ npm run dev
 cd src/client && npm run build
 ```
 
-### Start app in production:
+### Start app:
 ```
 npm start
 ```
