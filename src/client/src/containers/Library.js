@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 import { bookFields } from '../utilities';
 
 class Library extends Component {
-	state = { title: '', author: '', genre: '' };
+	state = {
+		title: '',
+		author: '',
+		genre: '',
+		description: '',
+	};
 
 	static propTypes = {
 		action: PropTypes.shape({}).isRequired,
@@ -25,7 +30,9 @@ class Library extends Component {
 	onAddBook = async (e) => {
 		e.preventDefault();
 
-		const { title, author, genre } = this.state;
+		const {
+			title, author, genre, description,
+		} = this.state;
 		const {
 			user: { profile },
 			action,
@@ -34,9 +41,15 @@ class Library extends Component {
 			title,
 			author,
 			genre,
+			description,
 			userId: profile.id,
 		});
-		this.setState({ title: '', author: '', genre: '' });
+		this.setState({
+			title: '',
+			author: '',
+			genre: '',
+			description: '',
+		});
 	};
 
 	onDelete = async (id) => {
@@ -47,15 +60,9 @@ class Library extends Component {
 	renderBookFields = () => bookFields.map(({ name, placeholder }) => {
 		const { [name]: value } = this.state;
 		return (
-			<div
-				key={name}
-				className="container form-group my-4"
-			>
-				<label
-					htmlFor={name}
-					className="row w-50 py-2 text-capitalize"
-				>
-					<span className="col-md-3">{name}</span>
+			<div key={name} className="container form-group my-4">
+				<label htmlFor={name} className="row py-2 text-capitalize">
+					<span className="col-md-3 pl-4">{name}</span>
 					<input
 						id={name}
 						name={name}
@@ -63,7 +70,7 @@ class Library extends Component {
 						value={value}
 						onChange={this.onChange}
 						placeholder={placeholder}
-						className="col-md-9 form-control"
+						className="col-md-8 form-control"
 					/>
 				</label>
 			</div>
@@ -75,19 +82,31 @@ class Library extends Component {
 		const { list, error } = books;
 		return (
 			<div className="container">
-				<div className="row mb-5">
-					<form
-						className="col-lg-8 px-0 mr-auto"
-						onSubmit={this.onAddBook}
-					>
-						<h3>
-							<span>Add new book to library</span>
-						</h3>
-						{this.renderBookFields()}
-						<button
-							className="col-6 btn btn-info btn-block"
-							type="submit"
-						>
+				<div className="mb-5">
+					<form className="row" onSubmit={this.onAddBook}>
+						<div className="col-lg-6 px-0 mr-auto">
+							<h3>
+								<span>Add new book to library</span>
+							</h3>
+							{this.renderBookFields()}
+						</div>
+						<div className="col-lg-6 px-0 mr-auto">
+							<div className="form-group my-4">
+								<label htmlFor="description" className="row py-2 text-capitalize">
+									<span className="pl-4">Description</span>
+									<textarea
+										id="description"
+										name="description"
+										value={this.state.description}
+										rows={10}
+										onChange={this.onChange}
+										placeholder="Write about book here"
+										className="mx-4 my-2 form-control"
+									/>
+								</label>
+							</div>
+						</div>
+						<button className="col-3 btn btn-info btn-block" type="submit">
 							<span>Add book</span>
 						</button>
 						<p>
@@ -111,11 +130,7 @@ class Library extends Component {
 									<td>{book.author}</td>
 									<td>{book.genre}</td>
 									<td>
-										<button
-											type="button"
-											onClick={() => this.onDelete(book.id)
-											}
-										>
+										<button type="button" onClick={() => this.onDelete(book.id)}>
 											<span>del</span>
 										</button>
 									</td>

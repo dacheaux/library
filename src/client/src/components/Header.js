@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 class Header extends Component {
 	static propTypes = {
 		user: PropTypes.shape({}).isRequired,
-	}
+	};
 
 	onLogout = () => {
 		localStorage.removeItem('jwtToken');
@@ -53,11 +53,7 @@ class Header extends Component {
 					<Link to="/" href="/" className="menu">
 						<span>Home</span>
 					</Link>
-					<Link
-						to={user ? '/library' : '/signin'}
-						href={user ? '/library' : '/signin'}
-						className="menu"
-					>
+					<Link to={user ? '/library' : '/signin'} href={user ? '/library' : '/signin'} className="menu">
 						<span>Library</span>
 					</Link>
 				</nav>
