@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import { bookFields } from '../utilities';
 
 class Library extends Component {
@@ -124,13 +124,22 @@ class Library extends Component {
 							</tr>
 						</thead>
 						<tbody>
-							{list.map(book => (
-								<tr key={book.id}>
-									<td>{book.title}</td>
-									<td>{book.author}</td>
-									<td>{book.genre}</td>
+							{list.map(({
+								title, author, genre, id,
+							}) => (
+								<tr key={id}>
 									<td>
-										<button type="button" onClick={() => this.onDelete(book.id)}>
+										<Link
+											to={`${id}/${title.split(' ').join('-').toLowerCase()}`}
+											href={title}
+										>
+											{title}
+										</Link>
+									</td>
+									<td>{author}</td>
+									<td>{genre}</td>
+									<td>
+										<button type="button" onClick={() => this.onDelete(id)}>
 											<span>del</span>
 										</button>
 									</td>

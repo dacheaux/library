@@ -51,14 +51,14 @@ exports.fetchBooks = (req, res) => {
 exports.addBook = (req, res) => {
 	passport.authenticate('jwt', async (err, user) => {
 		const {
-			title, author, genre, userId,
+			title, author, genre, description, userId,
 		} = req.body;
 		const { User, Book } = models;
 		if (user) {
 			const userInstance = await User.findById(userId, {
 				include: [Book],
 			});
-			const book = await Book.create({ title, author, genre });
+			const book = await Book.create({ title, author, genre, description });
 			try {
 				await userInstance.addBook(book);
 				res.send({ book, error: null });
@@ -82,6 +82,24 @@ exports.deleteBook = (req, res) => {
 				res.send({ success: true });
 			} catch (e) {
 				res.send({ error: 'Unable to delete book' });
+			}
+		} else {
+			res.send({ error: 'Unable to authenticate user' });
+		}
+	})(req, res);
+};
+
+exports.fetchBookById = (req, res) => {
+	passport.authenticate('jwt', async (err, user) => {
+		console.log(req.params);
+		const { id } = req.params;
+		const { Book } = models;
+		if (user) {
+			const book = await Book.findById(id);
+			try {
+				res.send({ success: true, book });
+			} catch (e) {
+				res.send({ error: 'Unable to find book' });
 			}
 		} else {
 			res.send({ error: 'Unable to authenticate user' });

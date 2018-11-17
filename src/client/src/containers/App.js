@@ -1,12 +1,18 @@
 import '../styles/App.css';
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import {
+	BrowserRouter as Router,
+	Route,
+	Switch,
+	Redirect,
+} from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import Login from './Login';
 import SignUp from './SignUp';
 import Library from './Library';
+import Book from '../components/Book';
 import { Header, Landing } from '../components';
 import * as actions from '../actions';
 
@@ -14,6 +20,7 @@ class App extends Component {
 	componentDidMount() {
 		const { action } = this.props;
 		action.fetchUser();
+		console.log(this.props);
 	}
 
 	render() {
@@ -33,13 +40,16 @@ class App extends Component {
 			<Router>
 				<div className="container">
 					<Header user={user} />
-					<Route exact path="/" component={Landing} />
-					<Route path="/login" render={() => logIn} />
-					<Route
-						path="/signup"
-						render={props => <SignUp {...props} />}
-					/>
-					<Route path="/library" render={() => library} />
+					<Switch>
+						<Route path="/library" render={() => library} />
+						<Route path="/login" render={() => logIn} />
+						<Route
+							path="/signup"
+							render={props => <SignUp {...props} />}
+						/>
+						<Route path="/:id/:book" component={Book} />
+						<Route path="/" component={Landing} />
+					</Switch>
 				</div>
 			</Router>
 		);

@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
 		title: DataTypes.STRING,
 		author: DataTypes.STRING,
 		genre: DataTypes.STRING,
-		description: DataTypes.STRING,
+		description: DataTypes.TEXT,
 	}, {});
 	Book.associate = (models) => {
 		Book.belongsToMany(models.User, { through: 'BookUsers', unique: false });

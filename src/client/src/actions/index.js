@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const FETCH_USER = 'FETCH_USER';
 export const FETCH_BOOKS = 'FETCH_BOOKS';
+export const FETCH_BOOK_BY_ID = 'FETCH_BOOK_BY_ID';
 export const ADD_BOOK = 'ADD_BOOK';
 export const DELETE_BOOK = 'DELETE_BOOK';
 
@@ -16,6 +17,11 @@ export const fetchUser = () => async (dispatch) => {
 export const fetchBooks = () => async (dispatch) => {
 	const res = await axios.get('/api/user/fetch-books');
 	dispatch({ type: FETCH_BOOKS, payload: res.data });
+};
+
+export const fetchBookById = id => async (dispatch) => {
+	const res = await axios.get(`/api/user/fetch-books/${id}`);
+	dispatch({ type: FETCH_BOOK_BY_ID, payload: res.data });
 };
 
 export const addBook = values => async (dispatch) => {
