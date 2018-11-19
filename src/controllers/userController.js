@@ -106,3 +106,22 @@ exports.fetchBookById = (req, res) => {
 		}
 	})(req, res);
 };
+
+exports.upload = (req, res) => {
+	passport.authenticate('jwt', async (err, user) => {
+		if (!user) return res.send({ error: 'Unable to authenticate user' });
+		const uploadFile = req.files.file;
+		const fileName = req.files.file.name;
+		uploadFile.mv(
+			`${__dirname}/public/files/${fileName}`,
+			(error) => {
+				if (error) {
+					return res.status(500).send(error);
+				}
+				return res.json({
+					file: `public/${req.files.file.name}`,
+				});
+			},
+		);
+	})(req, res);
+};

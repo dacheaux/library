@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
 const path = require('path');
+const fileUpload = require('express-fileupload');
+const cors = require('cors')
 
 const secret = require('./config/settings.json').sessionSecret;
 const authRoute = require('./routes/auth.js');
@@ -12,6 +14,8 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(fileUpload());
+app.use(cors());
 
 app.use(session({ secret, resave: true, saveUninitialized: true }));
 app.use(passport.initialize());

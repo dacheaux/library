@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import Login from './Login';
 import SignUp from './SignUp';
 import Library from './Library';
+import AddBook from './AddBook';
 import Book from '../components/Book';
 import { Header, Landing } from '../components';
 import * as actions from '../actions';
@@ -41,12 +42,13 @@ class App extends Component {
 				<div className="container">
 					<Header user={user} />
 					<Switch>
-						<Route path="/library" render={() => library} />
 						<Route path="/login" render={() => logIn} />
 						<Route
 							path="/signup"
 							render={props => <SignUp {...props} />}
 						/>
+						<Route path="/library" render={() => library} />
+						<Route path="/addbook" component={AddBook} />
 						<Route path="/:id/:book" component={Book} />
 						<Route path="/" component={Landing} />
 					</Switch>
