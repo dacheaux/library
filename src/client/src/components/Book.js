@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
 
-function importAll(r) {
+const importAll = (r) => {
 	const images = {};
 	r.keys().forEach((item) => { images[item.replace('./', '')] = r(item); });
 	return images;
-}
+};
 const images = importAll(require.context('../files', false, /\.(png|jpe?g|svg)$/));
 
 class Book extends Component {

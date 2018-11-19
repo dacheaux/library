@@ -93,7 +93,6 @@ exports.deleteBook = (req, res) => {
 
 exports.fetchBookById = (req, res) => {
 	passport.authenticate('jwt', async (err, user) => {
-		console.log(req.params);
 		const { id } = req.params;
 		const { Book } = models;
 		if (user) {
