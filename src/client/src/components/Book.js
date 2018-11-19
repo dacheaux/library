@@ -18,7 +18,11 @@ class Book extends Component {
 		if (!books.current) return <div>Loading...</div>;
 		return (
 			<div>
-				Book: {current.description}
+				<h2>{current.title}</h2>
+				<div>
+					<img src={require(`../files/${current.cover}`)} alt="book cover" />
+				</div>
+				<p>Description: {current.description}</p>
 			</div>
 		);
 	}

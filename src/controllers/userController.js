@@ -1,3 +1,4 @@
+const path = require('path');
 const passport = require('passport');
 const models = require('../models');
 
@@ -51,14 +52,15 @@ exports.fetchBooks = (req, res) => {
 exports.addBook = (req, res) => {
 	passport.authenticate('jwt', async (err, user) => {
 		const {
-			title, author, genre, description, userId,
+			userId,
+			...bookData
 		} = req.body;
 		const { User, Book } = models;
 		if (user) {
 			const userInstance = await User.findById(userId, {
 				include: [Book],
 			});
-			const book = await Book.create({ title, author, genre, description });
+			const book = await Book.create({ ...bookData });
 			try {
 				await userInstance.addBook(book);
 				res.send({ book, error: null });
@@ -112,14 +114,15 @@ exports.upload = (req, res) => {
 		if (!user) return res.send({ error: 'Unable to authenticate user' });
 		const uploadFile = req.files.file;
 		const fileName = req.files.file.name;
+		const fileDestination = path.join(__dirname, `../client/src/files/${fileName}`);
 		uploadFile.mv(
-			`${__dirname}/public/files/${fileName}`,
+			fileDestination,
 			(error) => {
 				if (error) {
 					return res.status(500).send(error);
 				}
-				return res.json({
-					file: `public/${req.files.file.name}`,
+				return res.send({
+					file: `files/${fileName}`,
 				});
 			},
 		);

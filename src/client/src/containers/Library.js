@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import AddBook from './AddBook';
 
 class Library extends Component {
 	static propTypes = {
@@ -19,10 +20,11 @@ class Library extends Component {
 	};
 
 	render() {
-		const { books } = this.props;
+		const { books, user, action } = this.props;
 		const { list, error } = books;
 		return (
 			<div className="container">
+				<AddBook user={user} action={action} />
 				<div className="row">
 					<table className="table table-stripe">
 						<thead>

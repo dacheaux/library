@@ -4,7 +4,7 @@ const passport = require('passport');
 const session = require('express-session');
 const path = require('path');
 const fileUpload = require('express-fileupload');
-const cors = require('cors')
+const cors = require('cors');
 
 const secret = require('./config/settings.json').sessionSecret;
 const authRoute = require('./routes/auth.js');
@@ -12,10 +12,10 @@ const userRoute = require('./routes/user.js');
 
 const app = express();
 
+app.use(cors());
+app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(fileUpload());
-app.use(cors());
 
 app.use(session({ secret, resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
@@ -25,8 +25,11 @@ app.use(passport.session());
 const models = require('./models');
 
 // Routes
+const publicPath = path.join(__dirname, 'public');
+app.use('/public', express.static(publicPath));
 app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
+
 
 // Sync Database
 models.sequelize

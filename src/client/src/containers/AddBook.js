@@ -8,6 +8,7 @@ class AddBook extends Component {
 		author: '',
 		genre: '',
 		description: '',
+		cover: '',
 		error: '',
 		selectedFile: null,
 		loaded: 0,
@@ -22,7 +23,7 @@ class AddBook extends Component {
 	renderBookFields = () => bookFields.map(({ name, placeholder }) => {
 		const { [name]: value } = this.state;
 		return (
-			<div key={name} className="container form-group my-4">
+			<div key={name} className="form-group my-4">
 				<label htmlFor={name} className="row py-2 text-capitalize">
 					<span className="col-md-3 pl-4">{name}</span>
 					<input
@@ -40,14 +41,7 @@ class AddBook extends Component {
 	});
 
 	handleSelectedFile = (e) => {
-		this.setState({
-			selectedFile: e.target.files[0],
-			loaded: 0,
-		});
-	}
-
-	handleUpload = () => {
-		const { selectedFile } = this.state;
+		const selectedFile = e.target.files[0];
 		const data = new FormData();
 		data.append('file', selectedFile, selectedFile.name);
 		axios
@@ -61,23 +55,26 @@ class AddBook extends Component {
 			.then((res) => {
 				console.log(res.statusText);
 			});
+		this.setState({
+			selectedFile,
+			loaded: 0,
+			cover: selectedFile.name,
+		});
 	}
 
 	onAddBook = async (e) => {
 		e.preventDefault();
 
 		const {
-			title, author, genre, description,
+			error, selectedFile, loaded, ...book
 		} = this.state;
 		const {
 			user: { profile },
 			action,
 		} = this.props;
+		console.log(book);
 		action.addBook({
-			title,
-			author,
-			genre,
-			description,
+			...book,
 			userId: profile.id,
 		});
 		this.setState({
@@ -85,6 +82,7 @@ class AddBook extends Component {
 			author: '',
 			genre: '',
 			description: '',
+			cover: '',
 		});
 	};
 
@@ -97,6 +95,21 @@ class AddBook extends Component {
 							<span>Add new book to library</span>
 						</h3>
 						{this.renderBookFields()}
+						<div className="row">
+							<div className="custom-file col-md-6 ml-4">
+								<label className="custom-file-label" htmlFor="customFile">
+									<span>Choose book cover</span>
+									<input
+										className="custom-file-input"
+										type="file"
+										name="file"
+										id="customFile"
+										onChange={this.handleSelectedFile}
+									/>
+								</label>
+							</div>
+							<div className="col-md-4"> {Math.round(this.state.loaded, 2) } %</div>
+						</div>
 					</div>
 					<div className="col-lg-6 px-0 mr-auto">
 						<div className="form-group my-4">
@@ -113,11 +126,6 @@ class AddBook extends Component {
 								/>
 							</label>
 						</div>
-					</div>
-					<div className="upload">
-						<input type="file" name="" id="" onChange={this.handleSelectedFile} />
-						<button type="button" onClick={this.handleUpload}>Upload</button>
-						<div> {Math.round(this.state.loaded, 2) } %</div>
 					</div>
 					<button className="col-3 btn btn-info btn-block" type="submit">
 						<span>Add book</span>
