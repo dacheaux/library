@@ -4,6 +4,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
 
+const tryRequire = (path) => {
+	try {
+		return require(`${path}`);
+	} catch (err) {
+		return null;
+	}
+};
+
 class Book extends Component {
 	componentDidMount() {
 		console.log(this.props);
@@ -15,14 +23,15 @@ class Book extends Component {
 	render() {
 		const { books } = this.props;
 		const { current } = books;
-		if (!books.current) return <div>Loading...</div>;
+		if (!current) return <div>Loading...</div>;
+		const { title, cover, description } = current;
 		return (
 			<div>
-				<h2>{current.title}</h2>
+				<h2>{title}</h2>
 				<div>
-					<img src={require(`../files/${current.cover}`)} alt="book cover" />
+					{cover && <img src={tryRequire(`../files/${cover}`)} alt="book cover" />}
 				</div>
-				<p>Description: {current.description}</p>
+				<p>Description: {description}</p>
 			</div>
 		);
 	}
