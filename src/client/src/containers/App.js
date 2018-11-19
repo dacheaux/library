@@ -30,7 +30,7 @@ class App extends Component {
 			books,
 			action,
 		} = this.props;
-		const logIn = profile ? <Redirect to="/" /> : <Login />;
+		const logIn = profile ? <Redirect to="/library" /> : <Login />;
 		const library = profile ? (
 			<Library action={action} user={user} books={books} />
 		) : (
