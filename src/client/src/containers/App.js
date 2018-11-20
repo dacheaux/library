@@ -21,6 +21,7 @@ class App extends Component {
 	componentDidMount() {
 		const { action } = this.props;
 		action.fetchUser();
+		action.fetchBooks();
 	}
 
 	render() {
@@ -49,7 +50,7 @@ class App extends Component {
 						<Route path="/library" render={() => library} />
 						<Route path="/addbook" render={() => <AddBook user={user} action={action} />} />
 						<Route path="/:id/:book" component={Book} />
-						<Route path="/" component={Landing} />
+						<Route path="/" render={() => <Landing books={books} />} />
 					</Switch>
 				</div>
 			</Router>

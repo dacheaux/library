@@ -49,6 +49,18 @@ exports.fetchBooks = (req, res) => {
 	})(req, res);
 };
 
+exports.fetchAllBooks = async (req, res) => {
+	const { User, Book } = models;
+	const books = await Book.findAll({ include: [User] });
+	try {
+		res.send({ error: null, books });
+	} catch (e) {
+		res.send({
+			error: 'Unable to fetch books from the database',
+		});
+	}
+}
+
 exports.addBook = (req, res) => {
 	passport.authenticate('jwt', async (err, user) => {
 		const {

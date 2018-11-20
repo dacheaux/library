@@ -4,16 +4,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
 
-const importAll = (r) => {
-	const images = {};
-	r.keys().forEach((item) => { images[item.replace('./', '')] = r(item); });
-	return images;
-};
-const images = importAll(require.context('../files', false, /\.(png|jpe?g|svg)$/));
+// const importAll = (r) => {
+// 	const images = {};
+// 	r.keys().forEach((item) => { images[item.replace('./', '')] = r(item); });
+// 	return images;
+// };
+// const images = importAll(require.context('../files', false, /\.(png|jpe?g|svg)$/));
 
 class Book extends Component {
 	componentDidMount() {
-		const { books, action, match } = this.props;
+		const { action, match } = this.props;
 		action.fetchBookById(match.params.id);
 	}
 
@@ -26,7 +26,7 @@ class Book extends Component {
 			<div>
 				<h2>{title}</h2>
 				<div>
-					{cover && <img src={images[cover]} alt="book cover" />}
+					{cover && <img src={require(`../files/${cover}`)} alt="book cover" />}
 				</div>
 				<p>Description: {description}</p>
 			</div>
