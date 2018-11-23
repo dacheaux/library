@@ -72,7 +72,6 @@ class AddBook extends Component {
 			user: { profile },
 			action,
 		} = this.props;
-		console.log(book);
 		action.addBook({
 			...book,
 			userId: profile.id,

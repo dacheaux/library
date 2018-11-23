@@ -26,7 +26,7 @@ class Book extends Component {
 			<div>
 				<h2>{title}</h2>
 				<div>
-					{cover && <img src={require(`../files/${cover}`)} alt="book cover" />}
+					{cover && <img src={`https://cloud-cube-eu.s3.amazonaws.com/rnyd0htrxw60/public/${cover}`} alt="book cover" />}
 				</div>
 				<p>Description: {description}</p>
 			</div>

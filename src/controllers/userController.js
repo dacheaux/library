@@ -125,7 +125,8 @@ exports.upload = (req, res) => {
 		if (!user) return res.send({ error: 'Unable to authenticate user' });
 		const uploadFile = req.files.file;
 		const fileName = req.files.file.name;
-		const fileDestination = path.join(__dirname, `../client/src/files/${fileName}`);
+		// const fileDestination = path.join(__dirname, `../client/src/files/${fileName}`);
+		const fileDestination = `https://cloud-cube-eu.s3.amazonaws.com/rnyd0htrxw60/public/${fileName}`;
 		uploadFile.mv(
 			fileDestination,
 			(error) => {
@@ -133,7 +134,7 @@ exports.upload = (req, res) => {
 					return res.status(500).send(error);
 				}
 				return res.send({
-					file: `files/${fileName}`,
+					file: `public/${fileName}`,
 				});
 			},
 		);
