@@ -6,7 +6,7 @@ const path = require('path');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 
-const secret = require('./config/settings.json').sessionSecret;
+const secret = require('./config/keys').sessionSecret;
 const authRoute = require('./routes/auth.js');
 const userRoute = require('./routes/user.js');
 

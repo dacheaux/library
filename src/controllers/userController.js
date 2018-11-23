@@ -1,6 +1,7 @@
-const path = require('path');
 const passport = require('passport');
 const models = require('../models');
+const AWS = require('aws-sdk');
+const { s3AccessKeyId, s3SecretAccessKey, s3Bucket, s3Key } = require('../config/keys');
 
 exports.user = (req, res) => {
 	passport.authenticate('jwt', async (err, user) => {
@@ -125,18 +126,20 @@ exports.upload = (req, res) => {
 		if (!user) return res.send({ error: 'Unable to authenticate user' });
 		const uploadFile = req.files.file;
 		const fileName = req.files.file.name;
-		// const fileDestination = path.join(__dirname, `../client/src/files/${fileName}`);
-		const fileDestination = `https://cloud-cube-eu.s3.amazonaws.com/rnyd0htrxw60/public/${fileName}`;
-		uploadFile.mv(
-			fileDestination,
-			(error) => {
-				if (error) {
-					return res.status(500).send(error);
-				}
-				return res.send({
-					file: `public/${fileName}`,
-				});
-			},
-		);
+		const s3 = new AWS.S3({
+			accessKeyId: s3AccessKeyId,
+			secretAccessKey: s3SecretAccessKey,
+		});
+		const params = {
+			Bucket: s3Bucket,
+			Key: `${s3Key}/${fileName}`,
+			Body: uploadFile.data,
+			ContentType: uploadFile.mimetype,
+		};
+		s3.upload(params, (s3Err, data) => {
+			if (s3Err) throw s3Err;
+			console.log(`File uploaded successfully at ${data.Location}`);
+			res.send({ url: data.Location });
+		});
 	})(req, res);
 };
