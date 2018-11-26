@@ -8,7 +8,7 @@ const {
 	s3Key
 } = require('../config/keys');
 
-exports.user = (req, res) => {
+exports.fetchUser = (req, res) => {
 	passport.authenticate('jwt', async (err, user) => {
 		const { User } = models;
 		if (user) {
@@ -27,33 +27,6 @@ exports.user = (req, res) => {
 	})(req, res);
 };
 
-exports.fetchBooksByUser = (req, res) => {
-	passport.authenticate('jwt', async (err, user) => {
-		const { User, Book } = models;
-		if (user) {
-			const booksField = [
-				{
-					model: Book,
-					attributes: { exclude: ['BookUsers'] },
-					through: { attributes: [] },
-				},
-			];
-			const userInstance = await User.findById(user.id, {
-				include: booksField,
-			});
-			try {
-				res.send({ error: null, list: userInstance.Books });
-			} catch (e) {
-				res.send({
-					error: 'Unable to fetch books from the database',
-					list: [],
-				});
-			}
-		} else {
-			res.send({ error: 'Unable to authenticate user', list: [] });
-		}
-	})(req, res);
-};
 
 exports.fetchBooks = async (req, res) => {
 	const { User, Book } = models;
@@ -67,7 +40,7 @@ exports.fetchBooks = async (req, res) => {
 	}
 }
 
-exports.addBook = (req, res) => {
+exports.saveBook = (req, res) => {
 	passport.authenticate('jwt', async (err, user) => {
 		const {
 			userId,
@@ -80,7 +53,8 @@ exports.addBook = (req, res) => {
 				const book = await Book.findById(bookId);
 				try {
 					await book.update({ ...bookData });
-					return res.send({ book, error: null });
+					const books = await Book.findAll({ include: [User] });
+					return res.send({ list: books, error: null });
 				} catch (e) {
 					return res.send({ book: null, error: 'Unable to update book' });
 				}
@@ -94,24 +68,6 @@ exports.addBook = (req, res) => {
 				res.send({ book, error: null });
 			} catch (e) {
 				res.send({ book: null, error: 'Unable to add book' });
-			}
-		} else {
-			res.send({ book: null, error: 'Unable to authenticate user' });
-		}
-	})(req, res);
-};
-
-exports.updateBookById = (req, res) => {
-	passport.authenticate('jwt', async (err, user) => {
-		const { id } = req.params;
-		const { Book } = models;
-		if (user) {
-			const book = await Book.findById(id);
-			try {
-				await book.update({ title: 'Trava' });
-				res.send({ book, error: null });
-			} catch (e) {
-				res.send({ book: null, error: 'Unable to update book' });
 			}
 		} else {
 			res.send({ book: null, error: 'Unable to authenticate user' });
@@ -170,3 +126,31 @@ exports.upload = (req, res) => {
 		});
 	})(req, res);
 };
+
+// exports.fetchBooksByUser = (req, res) => {
+// 	passport.authenticate('jwt', async (err, user) => {
+// 		const { User, Book } = models;
+// 		if (user) {
+// 			const booksField = [
+// 				{
+// 					model: Book,
+// 					attributes: { exclude: ['BookUsers'] },
+// 					through: { attributes: [] },
+// 				},
+// 			];
+// 			const userInstance = await User.findById(user.id, {
+// 				include: booksField,
+// 			});
+// 			try {
+// 				res.send({ error: null, list: userInstance.Books });
+// 			} catch (e) {
+// 				res.send({
+// 					error: 'Unable to fetch books from the database',
+// 					list: [],
+// 				});
+// 			}
+// 		} else {
+// 			res.send({ error: 'Unable to authenticate user', list: [] });
+// 		}
+// 	})(req, res);
+// };

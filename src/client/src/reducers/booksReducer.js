@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 import {
 	FETCH_BOOKS,
-	ADD_BOOK,
+	SAVE_BOOK,
 	DELETE_BOOK,
 	FETCH_BOOK_BY_ID,
 } from '../actions';
@@ -18,7 +18,7 @@ export default function (state = fromJS(initialState), action) {
 		return fromJS(action.payload);
 	case FETCH_BOOK_BY_ID:
 		return state.set('current', action.payload.book);
-	case ADD_BOOK:
+	case SAVE_BOOK:
 		if (action.payload.book) {
 			return state.update('list', list => (
 				list.unshift(fromJS(action.payload.book))

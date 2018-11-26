@@ -7,7 +7,7 @@ export default ({ books: { list } }) => {
 		const { id, title, cover } = book;
 		const bookUri = title.split(' ').join('-').toLowerCase();
 		return (
-			<div className="col-md-4">
+			<div className="col-md-4" key={id}>
 				<div className="card">
 					<img src={`${publicFolder}${cover}`} alt="" className="card-img-top" />
 					<Link to={`/books/${id}/${bookUri}`} href={title} className="card-body no-underline">

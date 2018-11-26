@@ -42,8 +42,10 @@ class Library extends Component {
 		);
 		return (
 			<div>
-				<Route path={`${url}/edit-book/:id`} render={props => <EditBook {...props} list={books.list} />} />
-				<Route exact path={`${url}/edit-book`} component={EditBook} />
+				<Route
+					path={`${url}/edit-book/:id`}
+					render={props => <EditBook {...props} user={user} books={books} action={action} />}
+				/>
 				<Route exact path={url} render={() => listWithEditBook} />
 			</div>
 		);
