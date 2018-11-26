@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
+import publicFolder from '../constants';
 
 // const importAll = (r) => {
 // 	const images = {};
@@ -18,17 +20,18 @@ class Book extends Component {
 	}
 
 	render() {
-		const { books } = this.props;
+		const { user, books } = this.props;
 		const { current } = books;
 		if (!current) return <div>Loading...</div>;
 		const { title, cover, description } = current;
 		return (
 			<div>
-				<h2>{title}</h2>
-				<div>
-					{cover && <img src={`https://cloud-cube-eu.s3.amazonaws.com/rnyd0htrxw60/public/${cover}`} alt="book cover" />}
+				{ user && <Link to="/library/edit-book/values" href="/library/edit-book/values">Edit...</Link> }
+				<h2 className="text-center mb-4">{title}</h2>
+				<div className="text-center">
+					{<img src={`${publicFolder}${cover}`} alt="book cover" className="w-50" />}
 				</div>
-				<p>Description: {description}</p>
+				<p className="mt-4">{description}</p>
 			</div>
 		);
 	}
@@ -39,6 +42,7 @@ Book.propTypes = {
 };
 
 const mapStateToProps = state => ({
+	user: state.get('user').toJS(),
 	books: state.get('books').toJS(),
 });
 

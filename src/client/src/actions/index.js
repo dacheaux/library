@@ -14,6 +14,11 @@ export const fetchUser = () => async (dispatch) => {
 	dispatch({ type: FETCH_USER, payload: res.data });
 };
 
+export const fetchBooksByUser = () => async (dispatch) => {
+	const res = await axios.get('/api/user/fetch-books-by-user');
+	dispatch({ type: FETCH_BOOKS, payload: res.data });
+};
+
 export const fetchBooks = () => async (dispatch) => {
 	const res = await axios.get('/api/user/fetch-books');
 	dispatch({ type: FETCH_BOOKS, payload: res.data });
@@ -24,7 +29,7 @@ export const fetchBookById = id => async (dispatch) => {
 	dispatch({ type: FETCH_BOOK_BY_ID, payload: res.data });
 };
 
-export const addBook = values => async (dispatch) => {
+export const saveBook = values => async (dispatch) => {
 	const res = await axios.post('/api/user/add-book', values);
 	dispatch({ type: ADD_BOOK, payload: res.data });
 };

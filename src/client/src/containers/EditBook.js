@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { bookFields } from '../utilities';
 
-class AddBook extends Component {
+class EditBook extends Component {
 	state = {
+		id: null,
 		title: '',
 		author: '',
 		genre: '',
@@ -13,6 +14,10 @@ class AddBook extends Component {
 		selectedFile: null,
 		loaded: 0,
 	};
+
+	componentDidMount() {
+		this.setState(this.props.current);		
+	}
 
 	onChange = (e) => {
 		const state = { ...this.state };
@@ -62,7 +67,7 @@ class AddBook extends Component {
 		});
 	}
 
-	onAddBook = async (e) => {
+	onSaveBook = async (e) => {
 		e.preventDefault();
 
 		const {
@@ -72,7 +77,7 @@ class AddBook extends Component {
 			user: { profile },
 			action,
 		} = this.props;
-		action.addBook({
+		action.saveBook({
 			...book,
 			userId: profile.id,
 		});
@@ -88,7 +93,7 @@ class AddBook extends Component {
 	render() {
 		return (
 			<div className="mb-5">
-				<form className="row" onSubmit={this.onAddBook}>
+				<form className="row" onSubmit={this.onSaveBook}>
 					<div className="col-lg-6 px-0 mr-auto">
 						<h3>
 							<span>Add new book to library</span>
@@ -127,7 +132,7 @@ class AddBook extends Component {
 						</div>
 					</div>
 					<button className="col-3 btn btn-info btn-block" type="submit">
-						<span>Add book</span>
+						<span>Save book</span>
 					</button>
 					<p>
 						<span>{this.state.error}</span>
@@ -138,4 +143,4 @@ class AddBook extends Component {
 	}
 }
 
-export default AddBook;
+export default EditBook;

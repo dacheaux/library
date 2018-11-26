@@ -25,8 +25,6 @@ app.use(passport.session());
 const models = require('./models');
 
 // Routes
-const publicPath = path.join(__dirname, 'public');
-app.use('/public', express.static(publicPath));
 app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
 
