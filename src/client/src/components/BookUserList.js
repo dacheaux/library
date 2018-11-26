@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default ({ userList }) => (
+export default ({ userList, onDelete }) => (
 
 	<div className="row">
 		<table className="table table-stripe">
@@ -31,7 +31,7 @@ export default ({ userList }) => (
 						<td>{author}</td>
 						<td>{genre}</td>
 						<td>
-							<button type="button" onClick={() => this.onDelete(id)}>
+							<button type="button" onClick={() => onDelete(id)}>
 								<span>del</span>
 							</button>
 						</td>

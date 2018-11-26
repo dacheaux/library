@@ -37,7 +37,7 @@ class Library extends Component {
 		const listWithEditBook = (
 			<div className="container">
 				<EditBook user={user} action={action} />
-				<BookUserList userList={userList} />
+				<BookUserList userList={userList} onDelete={this.onDelete} />
 			</div>
 		);
 		return (
