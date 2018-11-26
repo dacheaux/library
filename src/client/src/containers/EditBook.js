@@ -16,7 +16,13 @@ class EditBook extends Component {
 	};
 
 	componentDidMount() {
-		this.setState(this.props.current);		
+		const { list, match } = this.props;
+		if (match) {
+			const { params } = match;
+			const bookId = parseInt(params.id, 10);
+			const current = list.find(book => book.id === bookId);
+			this.setState(current);
+		}
 	}
 
 	onChange = (e) => {

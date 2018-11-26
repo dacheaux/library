@@ -19,7 +19,7 @@ export default ({ userList }) => (
 					<tr key={id}>
 						<td>
 							<Link
-								to={`/library/${id}/${title
+								to={`/books/${id}/${title
 									.split(' ')
 									.join('-')
 									.toLowerCase()}`}

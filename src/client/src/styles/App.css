@@ -37,7 +37,7 @@
   border-color: transparent transparent transparent black;
 }
 
-a.no-underline {
+.no-underline, a.no-underline {
   color: rgba(0, 0, 0, .84);
   text-decoration: none;
 }

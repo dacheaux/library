@@ -10,7 +10,7 @@ export default ({ books: { list } }) => {
 			<div className="col-md-4">
 				<div className="card">
 					<img src={`${publicFolder}${cover}`} alt="" className="card-img-top" />
-					<Link to={`/library/${id}/${bookUri}`} href={title} className="card-body no-underline">
+					<Link to={`/books/${id}/${bookUri}`} href={title} className="card-body no-underline">
 						<h3 className="text-center">{title}</h3>
 					</Link>
 				</div>

@@ -4,10 +4,11 @@ import {
 	BrowserRouter as Router,
 	Route,
 	Redirect,
+	Switch,
 } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
+import Book from '../components/Book';
 import Login from './Login';
 import SignUp from './SignUp';
 import Library from './Library';
@@ -32,14 +33,15 @@ class App extends Component {
 		return (
 			<Router>
 				<div className="container">
-					<Header user={user} />
+					<Header user={user} />				
 					<Route path="/login" render={() => logIn} />
 					<Route
 						path="/signup"
 						render={props => <SignUp {...props} />}
 					/>
+					<Route path="/books/:id/:book" component={Book} />
 					<Route path="/library" render={props => <Library {...props} action={action} user={user} books={books} />} />
-					<Route exact path="/" render={() => <Landing books={books} />} />
+					<Route exact path="/" render={() => <Landing books={books} />} />			
 				</div>
 			</Router>
 		);

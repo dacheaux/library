@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -13,31 +13,38 @@ import publicFolder from '../constants';
 // };
 // const images = importAll(require.context('../files', false, /\.(png|jpe?g|svg)$/));
 
-class Book extends Component {
-	componentDidMount() {
-		const { action, match } = this.props;
-		action.fetchBookById(match.params.id);
-	}
-
-	render() {
-		const { user, books } = this.props;
-		const { current } = books;
-		if (!current) return <div>Loading...</div>;
-		const { title, cover, description } = current;
-		return (
-			<div>
-				{ user && <Link to="/library/edit-book/values" href="/library/edit-book/values">Edit...</Link> }
-				<h2 className="text-center mb-4">{title}</h2>
-				<div className="text-center">
-					{<img src={`${publicFolder}${cover}`} alt="book cover" className="w-50" />}
-				</div>
-				<p className="mt-4">{description}</p>
+const Book = (props) => {
+	const {
+		user,
+		books: { list },
+		match: { params },
+	} = props;
+	const bookId = parseInt(params.id, 10);
+	const current = list.find(book => book.id === bookId);
+	if (!current) return <div>Loading...</div>;
+	const { title, cover, description } = current;
+	return (
+		<div>
+			{user.profile && (
+				<Link
+					to={`/library/edit-book/${params.id}`}
+					href={`/library/edit-book/${params.id}`}
+				>
+					<span className="no-underline text-secondary font-weight-bold">Edit...</span>
+				</Link>
+			)}
+			<h2 className="text-center mb-4">{title}</h2>
+			<div className="text-center">
+				{<img src={`${publicFolder}${cover}`} alt="book cover" className="w-50" />}
 			</div>
-		);
-	}
-}
+			<p className="mt-4">{description}</p>
+		</div>
+	);
+};
 
 Book.propTypes = {
+	user: PropTypes.shape({}).isRequired,
+	books: PropTypes.shape({}).isRequired,
 	match: PropTypes.shape({}).isRequired,
 };
 

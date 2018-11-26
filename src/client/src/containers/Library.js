@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import EditBook from './EditBook';
-import Book from '../components/Book';
 import BookUserList from '../components/BookUserList';
 
 class Library extends Component {
@@ -42,12 +41,11 @@ class Library extends Component {
 			</div>
 		);
 		return (
-			<Switch>
-				<Route path={`${url}/edit-book/values`} render={props => <EditBook {...props} current={books.current} />} />
-				<Route path={`${url}/edit-book`} component={EditBook} />
-				<Route path={`${url}/:id/:book`} component={Book} />
-				<Route path={url} render={() => listWithEditBook} />
-			</Switch>
+			<div>
+				<Route path={`${url}/edit-book/:id`} render={props => <EditBook {...props} list={books.list} />} />
+				<Route exact path={`${url}/edit-book`} component={EditBook} />
+				<Route exact path={url} render={() => listWithEditBook} />
+			</div>
 		);
 	}
 }
