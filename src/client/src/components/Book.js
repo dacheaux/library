@@ -15,17 +15,18 @@ import publicFolder from '../constants';
 
 const Book = (props) => {
 	const {
-		user,
+		user: { profile },
 		books: { list },
 		match: { params },
 	} = props;
 	const bookId = parseInt(params.id, 10);
-	const current = list.find(book => book.id === bookId);
-	if (!current) return <div>Loading...</div>;
-	const { title, cover, description } = current;
+	const currentBook = list.find(book => book.id === bookId);
+	if (!currentBook) return <div>Loading...</div>;
+	const { title, cover, description } = currentBook;
+	const authorized = currentBook.Users.some(bookUser => bookUser.id === profile.id);
 	return (
 		<div>
-			{user.profile && (
+			{authorized && (
 				<Link
 					to={`/library/edit-book/${params.id}`}
 					href={`/library/edit-book/${params.id}`}

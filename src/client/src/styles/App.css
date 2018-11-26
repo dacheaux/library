@@ -41,3 +41,8 @@
   color: rgba(0, 0, 0, .84);
   text-decoration: none;
 }
+
+.container-cover {
+  height: 15rem;
+  overflow: hidden;
+}

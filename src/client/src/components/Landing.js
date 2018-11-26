@@ -4,14 +4,17 @@ import publicFolder from '../constants';
 
 export default ({ books: { list } }) => {
 	const listOfBooks = list.map((book) => {
-		const { id, title, cover } = book;
+		const { id, title, cover, Users } = book;
 		const bookUri = title.split(' ').join('-').toLowerCase();
 		return (
 			<div className="col-md-4" key={id}>
 				<div className="card">
-					<img src={`${publicFolder}${cover}`} alt="" className="card-img-top" />
+					<div className="container-cover">
+						<img src={`${publicFolder}${cover}`} alt="" className="card-img-top" />
+					</div>
 					<Link to={`/books/${id}/${bookUri}`} href={title} className="card-body no-underline">
-						<h3 className="text-center">{title}</h3>
+						<h5 className="text-center mb-4">{title}</h5>
+						<div className="row">{Users[0].email}</div>
 					</Link>
 				</div>
 			</div>
