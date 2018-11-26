@@ -10,7 +10,12 @@ import reducer from './reducers';
 import App from './containers/App';
 
 const reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
-const store = createStore(reducer, compose(applyMiddleware(thunk), reduxDevTools));
+let store;
+if (reduxDevTools) {
+	store = createStore(reducer, compose(applyMiddleware(thunk), reduxDevTools));
+} else {
+	store = createStore(reducer, applyMiddleware(thunk));
+}
 
 ReactDOM.render(
 	<Provider store={store}>
