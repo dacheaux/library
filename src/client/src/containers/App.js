@@ -26,6 +26,7 @@ class App extends Component {
 			user,
 			user: { profile },
 			books,
+			books: { searchTerm },
 			action,
 		} = this.props;
 		const logIn = profile ? <Redirect to="/library" /> : <Login />;
@@ -40,7 +41,7 @@ class App extends Component {
 					/>
 					<Route path="/books/:id/:book" component={Book} />
 					<Route path="/library" render={props => <Library {...props} action={action} user={user} books={books} />} />
-					<Route exact path="/" render={() => <Landing books={books} />} />
+					<Route exact path="/" render={() => <Landing books={books} searchTerm={searchTerm} />} />
 				</div>
 			</Router>
 		);

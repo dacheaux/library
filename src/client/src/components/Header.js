@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Search from '../containers/Search';
 
 class Header extends Component {
 	static propTypes = {
@@ -56,6 +57,7 @@ class Header extends Component {
 					<Link to={user ? '/library' : '/signin'} href={user ? '/library' : '/signin'} className="menu">
 						<span>Library</span>
 					</Link>
+					<Search />
 				</nav>
 				<ul className="nav-right d-flex">{this.renderContent()}</ul>
 			</div>

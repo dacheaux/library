@@ -1,13 +1,15 @@
 import { fromJS } from 'immutable';
 import {
 	FETCH_BOOKS,
+	FETCH_BOOK_BY_ID,
+	SEARCH_TERM,
 	SAVE_BOOK,
 	DELETE_BOOK,
-	FETCH_BOOK_BY_ID,
 } from '../actions';
 
 const initialState = {
 	list: [],
+	searchTerm: '',
 	current: null,
 	error: null,
 };
@@ -18,6 +20,8 @@ export default function (state = fromJS(initialState), action) {
 		return fromJS(action.payload);
 	case FETCH_BOOK_BY_ID:
 		return state.set('current', action.payload.book);
+	case SEARCH_TERM:
+		return state.set('searchTerm', action.payload);
 	case SAVE_BOOK:
 		if (action.payload.book) {
 			return state.update('list', list => (
